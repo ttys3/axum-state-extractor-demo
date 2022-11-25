@@ -40,7 +40,7 @@ async fn main() {
 // not work: -> Router<InnerState> , the trait `From<Router<InnerState>>` is not implemented for `Router<OuterState, _>`
 // not work: -> Router<()>         , the trait `From<Router>` is not implemented for `Router<OuterState, _>`
 // not work: -> Router             , the trait `From<Router>` is not implemented for `Router<OuterState, _>`
-fn get_sub_router() -> Router<OuterState> {
+fn get_sub_router<T>() -> Router<T> {
     Router::new()
         .route("/inner", get(inner_handler))
         .with_state(InnerState {})
