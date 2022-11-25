@@ -4,10 +4,10 @@
 //! cd examples && cargo run -p example-hello-world
 //! ```
 
-use axum::{response::Html, routing::get, Router};
-use std::net::SocketAddr;
 use axum::extract::State;
 use axum::response::IntoResponse;
+use axum::{response::Html, routing::get, Router};
+use std::net::SocketAddr;
 
 #[tokio::main]
 async fn main() {
@@ -56,10 +56,10 @@ struct InnerState {}
 #[derive(Clone)]
 struct OuterState {}
 
-async fn inner_handler(state: State<InnerState>) -> impl IntoResponse {
+async fn inner_handler(_state: State<InnerState>) -> impl IntoResponse {
     "inner"
 }
 
-async fn outer_handler(state: State<OuterState>) ->impl IntoResponse {
+async fn outer_handler(_state: State<OuterState>) -> impl IntoResponse {
     "outer"
 }
