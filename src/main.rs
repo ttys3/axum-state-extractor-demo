@@ -63,3 +63,21 @@ async fn inner_handler(_state: State<InnerState>) -> impl IntoResponse {
 async fn outer_handler(_state: State<OuterState>) -> impl IntoResponse {
     "outer"
 }
+
+#[cfg(test)]
+mod tests {
+    use crate::{get_sub_router, handler, outer_handler, OuterState};
+    use axum::routing::get;
+    use axum::Router;
+
+    #[test]
+    fn test_new_router_with_state_without_used() {
+        // without the `Router<OuterState>` type annotation, it will not work and result in:
+        // error[E0282]: type annotations needed for `Router<S2>`
+        let _app: Router<OuterState> = Router::new()
+            .route("/", get(handler))
+            .route("/outer", get(outer_handler))
+            .merge(get_sub_router())
+            .with_state(OuterState {});
+    }
+}
